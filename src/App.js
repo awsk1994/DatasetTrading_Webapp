@@ -1,147 +1,108 @@
 import React from "react";
 import web3 from "./web3";
-import lottery from "./lottery";
+import factory from "./factory";
+import Client from "./client";
 
 class App extends React.Component {
   state = {
     provider: "",
+
+    description: "",
     initialInvestmentTarget: 0,
     purchasePrice: 0,
-    invested: 0,
-    description: "",
-    example: "",
-    investors: {},
-    contractAddr: "",
-    contractState: 0,
 
-    cidraw: "",
-    SP: "",
-    investAmt: "",
+    dealClients: [],
+    dealClientsDesc: [],
     message: "",
-    value: 0,
+    selectedClientAddr: 0,
   };
-  async componentDidMount() {
-    console.log(lottery._address);
-    const provider = await lottery.methods.provider().call();
-    const description = await lottery.methods.description().call();
-    const initialInvestmentTarget = await lottery.methods.initialInvestmentTarget().call();
-    const example = await lottery.methods.example().call();
-    const invested = await lottery.methods.invested().call();
-    const contractState = await lottery.methods.state().call(); // TODO: enum casting
-    const purchasePrice = await lottery.methods.purchasePrice().call(); // TODO: enum casting
 
-    // const players = await lottery.methods.getPlayers().call();
-    // const balance = await web3.eth.getBalance(lottery.options.address);
-    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState, contractAddr: lottery._address});
-    console.log("provider", provider);
-    // this.setState({ manager, players, balance });
+  async componentDidMount() {
+    console.log("contract address: ", factory._address);
+    const dealClients = await factory.methods.getClients().call();
+    const dealClientsDesc = await factory.methods.getClientsDesc().call();
+
+    this.setState({ dealClients, dealClientsDesc });
+    console.log("deal clients:", dealClients, "desc", dealClientsDesc)
   }
 
-  onInvest = async (event) => {
+  onCreate = async (event) => {
     event.preventDefault(); // TODO: what does this do?
     const accounts = await web3.eth.getAccounts();
     this.setState({ message: "Fetching data..." });
-    await lottery.methods.invest().send({
-      from: accounts[0],
-      value: web3.utils.toWei(this.state.investAmt, "wei"),
+    await factory.methods.createClient(
+      this.state.description, this.state.initialInvestmentTarget, this.state.purchasePrice
+    ).send({
+      from: accounts[0]
     });
-    this.setState({ message: "Invested!" });
+    this.setState({ message: "Created!" });
+    await this.getClients();
+    await this.getClientsDesc();
   };
 
-  onPurchase = async (event) => {
-    event.preventDefault(); // TODO: what does this do?
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
-    await lottery.methods.purchase().send({
-      from: accounts[0],
-      value: web3.utils.toWei(this.state.purchasePrice, "wei"),
-    });
-    this.setState({ message: "Purchased!" });
-  };
+  getClients = async() => {
+    const dealClients = await factory.methods.getClients().call();
+    this.setState({ dealClients });
+    console.log("deal clients:", dealClients)
+  }
 
-  onClose = async (event) => {
-    event.preventDefault(); // TODO: what does this do?
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
-    await lottery.methods.cancel().send({
-      from: accounts[0],
-    });
-    this.setState({ message: "Closed!" });
-  };
+  getClientsDesc = async() => {
+    const dealClientsDesc = await factory.methods.getClientsDesc().call();
+    this.setState({ dealClientsDesc });
+    console.log("dealClientsDesc:", dealClientsDesc)
+  }
 
-  onAuthorize = async (event) => {
-    event.preventDefault(); // TODO: what does this do?
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
-    await lottery.methods.authorizeSP(this.state.cidraw, this.state.SP).send({  // TODO: need to contract to bytes?
-      from: accounts[0],
-    });
-    this.setState({ message: "Authorized!" });
-  };
+  select = (addr) => {
+    this.setState({selectedClientAddr: addr});
+  }
 
   render() {
     return (
       <div>
         <div>
-          <h2>Dataset Trading Contract</h2>
-          <p>State: {this.state.contractState}</p>
-          <p>Description: {this.state.description}</p>
-          <p>Example: {this.state.example}</p>
-          <p>Provider: {this.state.provider}</p>
-          <p>contractAddr: {this.state.contractAddr}</p>
-          <hr/>
-          <p>Invested: {this.state.invested} wei</p>
-          <p>initialInvestmentTarget: {this.state.initialInvestmentTarget} wei</p>
-          <hr/>
+          <h1>Dataset Trading</h1>
         </div>
+        <hr/>
         <div>
-          <form onSubmit={this.onInvest}>
-            <h2>Invest</h2>
+          <form onSubmit={this.onCreate}>
+            <h2>Create a Dataset</h2>
             <div>
-              <p>{this.state.initialInvestmentTarget - this.state.invested} wei until done!</p>
-              <label>Amount of wei to invest</label>
+              <label>Description</label>
               <input
-                value={this.state.investAmt}
-                onChange={(event) => this.setState({ investAmt: event.target.value })}
+                value={this.state.description}
+                onChange={(event) => this.setState({ description: event.target.value })}
               />
             </div>
-            <button>Enter</button>
-          </form>
-          <hr/>
-        </div>
-        <div>
-          <form onSubmit={this.onPurchase}>
-            <h2>Purchase</h2>
-            <p>Price: {this.state.purchasePrice}</p>
-            <button>Enter</button>
-          </form>
-          <hr/>
-        </div>
-        <div>
-          <form onSubmit={this.onClose}>
-            <button>Close Contract</button>
-          </form>
-          <hr/>
-        </div>
-        <div>
-          <form onSubmit={this.onAuthorize}>
             <div>
-              <label>SP:</label>
+              <label>Initial Investment Target</label>
               <input
-                value={this.state.SP}
-                onChange={(event) => this.setState({ SP: event.target.value })}
-              />
-              <label>cid raw:</label>
-              <input
-                value={this.state.cidraw}
-                onChange={(event) => this.setState({ cidraw: event.target.value })}
+                value={this.state.initialInvestmentTarget}
+                onChange={(event) => this.setState({ initialInvestmentTarget: event.target.value })}
               />
             </div>
-            <button>Authorize</button>
+            <div>
+              <label>Purchase Price</label>
+              <input
+                value={this.state.purchasePrice}
+                onChange={(event) => this.setState({ purchasePrice: event.target.value })}
+              />
+            </div>
+            <button>Create Dataset</button>
           </form>
           <hr/>
         </div>
-        <h2>{this.state.message}</h2>
+        {/* <div>
+          <button onClick={this.getClients}>Get Clients</button>
+        </div> */}
+        <h2>Datasets</h2>
+        <p>click to view dataset</p>
+        <div>
+          { this.state.dealClients.map((addr, index) => <div><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
+        </div>
+        <hr/>
+        { this.state.selectedClientAddr !== 0 ?  <Client key={this.state.selectedClientAddr} contractAddr={this.state.selectedClientAddr}/> : null }
+
+        {/* <p>message: {this.state.message}</p> */}
       </div>
     );
   }
