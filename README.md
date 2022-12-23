@@ -4,6 +4,12 @@
 * If contract changes, need to change src/lottery.js -> abi as well
 	* abi can be copied from remix IDE
 
+## TODO
+
+* currently only reads from 1st account in metamask
+
+-------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
