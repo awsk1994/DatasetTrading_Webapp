@@ -1,3 +1,9 @@
+# Dataset Trading - React
+
+* Need to change src/lottery.js -> address everytime. 
+* If contract changes, need to change src/lottery.js -> abi as well
+	* abi can be copied from remix IDE
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
