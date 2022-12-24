@@ -7,7 +7,7 @@ class Client extends React.Component {
   constructor(props) {
     super();
     // let contractAddr = props.route.params.contractAddr;
-    console.log("contructor", props.contractAddr);
+    console.log("contract addr", props.contractAddr);
     // super();
     this.state = {
       contractAddr: props.contractAddr,
@@ -17,9 +17,11 @@ class Client extends React.Component {
       invested: 0,
       description: "",
       example: "",
-      investors: {},
       contractState: 0,
   
+      investors: [],
+      purchasers: [],
+
       cidraw: "",
       SP: "",
       investAmt: "",
@@ -40,7 +42,11 @@ class Client extends React.Component {
     const contractState = await this.dealClient.methods.state().call(); // TODO: enum casting
     const purchasePrice = await this.dealClient.methods.purchasePrice().call(); // TODO: enum casting
 
-    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState });
+    const investors = await this.dealClient.methods.getInvestors().call();
+    const purchasers = await this.dealClient.methods.getPurchasers().call();
+    console.log(investors);
+
+    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState, investors, purchasers });
     console.log("provider address", provider);  
   
   }
@@ -112,8 +118,8 @@ class Client extends React.Component {
                 value={this.state.investAmt}
                 onChange={(event) => this.setState({ investAmt: event.target.value })}
               />
+              <button>Enter</button>
             </div>
-            <button>Enter</button>
           </form>
           <hr/>
         </div>
@@ -148,6 +154,12 @@ class Client extends React.Component {
             <button>Authorize</button>
           </form>
           <hr/>
+        </div>
+        <div>
+          <h2>investors</h2>
+          <p>{this.state.investors}</p>
+          <h2>purchasers</h2>
+          <p>{this.state.purchasers}</p>
         </div>
         <h2>{this.state.message}</h2>
       </div>

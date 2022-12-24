@@ -52,6 +52,11 @@ class App extends React.Component {
     console.log("dealClientsDesc:", dealClientsDesc)
   }
 
+  getAllClients = async() => {
+    await this.getClients();
+    await this.getClientsDesc();
+  }
+
   select = (addr) => {
     this.setState({selectedClientAddr: addr});
   }
@@ -91,14 +96,15 @@ class App extends React.Component {
           </form>
           <hr/>
         </div>
-        {/* <div>
-          <button onClick={this.getClients}>Get Clients</button>
-        </div> */}
         <h2>Datasets</h2>
         <p>click to view dataset</p>
-        <div>
-          { this.state.dealClients.map((addr, index) => <div><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
-        </div>
+        <button onClick={this.getAllClients}>Refresh</button>
+        {
+          this.state.selectedClientAddr !== 0 ? 
+          <div>
+            { this.state.dealClients.map((addr, index) => <div key={addr}><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
+          </div> : null 
+        }
         <hr/>
         { this.state.selectedClientAddr !== 0 ?  <Client key={this.state.selectedClientAddr} contractAddr={this.state.selectedClientAddr}/> : null }
 

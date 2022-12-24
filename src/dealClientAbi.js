@@ -3,182 +3,6 @@
 // const address = '0xDEA75f19fC6a03c4BF999c42351B3E7D511b4E44';
 const abi = [
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "received",
-				"type": "string"
-			}
-		],
-		"name": "ReceivedDataCap",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "cidraw",
-				"type": "bytes"
-			}
-		],
-		"name": "addCIDE",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "cidraw",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "provider",
-				"type": "bytes"
-			}
-		],
-		"name": "authorizeSPE",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "investor",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "amount",
-				"type": "uint64"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "shares",
-				"type": "uint64"
-			}
-		],
-		"name": "investE",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "publishDealE",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "investor",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "refund",
-				"type": "uint64"
-			}
-		],
-		"name": "refundE",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "refundee",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "amount",
-				"type": "uint64"
-			}
-		],
-		"name": "refundExcessE",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes",
-				"name": "cidraw",
-				"type": "bytes"
-			},
-			{
-				"internalType": "bytes",
-				"name": "_SP",
-				"type": "bytes"
-			}
-		],
-		"name": "authorizeSP",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "cancel",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint64",
-				"name": "",
-				"type": "uint64"
-			},
-			{
-				"internalType": "uint64",
-				"name": "method",
-				"type": "uint64"
-			},
-			{
-				"internalType": "bytes",
-				"name": "params",
-				"type": "bytes"
-			}
-		],
-		"name": "handle_filecoin_method",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "invest",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "purchase",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -203,6 +27,19 @@ const abi = [
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "received",
+				"type": "string"
+			}
+		],
+		"name": "ReceivedDataCap",
+		"type": "event"
 	},
 	{
 		"inputs": [],
@@ -232,6 +69,44 @@ const abi = [
 	},
 	{
 		"inputs": [],
+		"name": "SP",
+		"outputs": [
+			{
+				"internalType": "bytes",
+				"name": "",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes",
+				"name": "cidraw",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_SP",
+				"type": "bytes"
+			}
+		],
+		"name": "authorizeSP",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "cancel",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "description",
 		"outputs": [
 			{
@@ -251,19 +126,6 @@ const abi = [
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCID",
-		"outputs": [
-			{
-				"internalType": "bytes",
-				"name": "",
-				"type": "bytes"
 			}
 		],
 		"stateMutability": "view",
@@ -290,6 +152,55 @@ const abi = [
 	},
 	{
 		"inputs": [],
+		"name": "getInvestors",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPurchasers",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "method",
+				"type": "uint64"
+			},
+			{
+				"internalType": "bytes",
+				"name": "params",
+				"type": "bytes"
+			}
+		],
+		"name": "handle_filecoin_method",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "initialInvestmentTarget",
 		"outputs": [
 			{
@@ -299,6 +210,13 @@ const abi = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "invest",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -367,6 +285,13 @@ const abi = [
 	},
 	{
 		"inputs": [],
+		"name": "purchase",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "purchasePrice",
 		"outputs": [
 			{
@@ -399,23 +324,10 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "SP",
-		"outputs": [
-			{
-				"internalType": "bytes",
-				"name": "",
-				"type": "bytes"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "state",
 		"outputs": [
 			{
-				"internalType": "enum DealClient.State",
+				"internalType": "enum DealClientState",
 				"name": "",
 				"type": "uint8"
 			}
