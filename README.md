@@ -14,6 +14,15 @@ Similar to stock trading, but for datasets. Not really sure if there’s busines
 ## Documentation
 https://docs.google.com/document/d/1Q0_zs0o1v3vUQdi2-Vm5QZXBHCwPrFAVkMkrwisUv10/edit?usp=sharing
 
+## Demo
+* Video: https://www.youtube.com/watch?v=fUVw6Xnq3Qw&feature=youtu.be
+* Goerli Test Network:
+	* Factory Contract Address: 0xdb6dB06e3bA8D1e0859E06cfF04177c624647EEc
+
+## Git Repo
+* Smart Contract: https://github.com/awsk1994/DatasetTrading
+* https://github.com/awsk1994/DatasetTrading_Webapp
+
 ## Get Started (Simplified)
 1. Deploy Factory and MockMarket contract 
     * https://github.com/awsk1994/DatasetTrading
@@ -43,12 +52,3 @@ https://docs.google.com/document/d/1Q0_zs0o1v3vUQdi2-Vm5QZXBHCwPrFAVkMkrwisUv10/
 
 ## Note
 * When Smart Contract change, need to update abi (stored in src/metadata)
-
-## Demo
-* Video: https://www.youtube.com/watch?v=fUVw6Xnq3Qw&feature=youtu.be
-* Goerli Test Network:
-	* Factory Contract Address: 0xdb6dB06e3bA8D1e0859E06cfF04177c624647EEc
-
-## Git Repo
-* Smart Contract: https://github.com/awsk1994/DatasetTrading
-* https://github.com/awsk1994/DatasetTrading_Webapp
