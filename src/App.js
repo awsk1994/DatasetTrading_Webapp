@@ -64,13 +64,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <h1>Dataset Trading</h1>
-        </div>
+        <h1>Dataset Trading</h1>
         <hr/>
         <div>
           <form onSubmit={this.onCreate}>
             <h2>Create a Dataset</h2>
+            
             <div>
               <label>Description</label>
               <input
@@ -78,6 +77,7 @@ class App extends React.Component {
                 onChange={(event) => this.setState({ description: event.target.value })}
               />
             </div>
+
             <div>
               <label>Initial Investment Target</label>
               <input
@@ -85,6 +85,7 @@ class App extends React.Component {
                 onChange={(event) => this.setState({ initialInvestmentTarget: event.target.value })}
               />
             </div>
+
             <div>
               <label>Purchase Price</label>
               <input
@@ -92,23 +93,26 @@ class App extends React.Component {
                 onChange={(event) => this.setState({ purchasePrice: event.target.value })}
               />
             </div>
+
             <button>Create Dataset</button>
           </form>
           <hr/>
         </div>
-        <h2>Datasets</h2>
-        <p>click to view dataset</p>
-        <button onClick={this.getAllClients}>Refresh</button>
-        {
-          this.state.dealClients.length !== 0 ? 
-          <div>
-            { this.state.dealClients.map((addr, index) => <div key={addr}><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
-          </div> : null 
-        }
-        <hr/>
-        { this.state.selectedClientAddr !== 0 ?  <Client key={this.state.selectedClientAddr} contractAddr={this.state.selectedClientAddr}/> : null }
 
-        {/* <p>message: {this.state.message}</p> */}
+        <div>
+          <h2>Datasets</h2>
+          <p>click to view dataset</p>
+          <button onClick={this.getAllClients}>Refresh</button>
+          {
+            this.state.dealClients.length !== 0 ? 
+            <div>
+              { this.state.dealClients.map((addr, index) => <div key={addr}><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
+            </div> : null 
+          }
+          <hr/>
+        </div>
+        
+        { this.state.selectedClientAddr !== 0 ?  <Client key={this.state.selectedClientAddr} contractAddr={this.state.selectedClientAddr}/> : null }
       </div>
     );
   }

@@ -2,6 +2,8 @@ import React from "react";
 import web3 from "./web3";
 import dealClientAbi from "./metadata/dealClientAbi";
 
+const contractStates = ["INVESTING", "UPLOADING", "PURCHASABLE", "REFUNDING", "CLOSED"]
+
 class Client extends React.Component {
   constructor(props) {
     super();
@@ -16,7 +18,7 @@ class Client extends React.Component {
       invested: 0,
       description: "",
       example: "",
-      contractState: 0,
+      contractState: contractStates[0],
   
       investors: [],
       purchasers: [],
@@ -38,7 +40,7 @@ class Client extends React.Component {
     const initialInvestmentTarget = await this.dealClient.methods.initialInvestmentTarget().call();
     const example = await this.dealClient.methods.example().call();
     const invested = await this.dealClient.methods.invested().call();
-    const contractState = await this.dealClient.methods.state().call(); // TODO: enum casting
+    const contractStateEnum = await this.dealClient.methods.state().call(); // TODO: enum casting
     const purchasePrice = await this.dealClient.methods.purchasePrice().call(); // TODO: enum casting
 
     const investors = await this.dealClient.methods.getInvestors().call();
@@ -47,7 +49,7 @@ class Client extends React.Component {
     const SP = await this.dealClient.methods.SP().call();
     const cidraw = await this.dealClient.methods.cidRaw().call();
 
-    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState, investors, purchasers, cidraw, SP });
+    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState: contractStates[contractStateEnum], investors, purchasers, cidraw, SP });
     console.log("provider address", provider);  
   }
 
@@ -96,74 +98,79 @@ class Client extends React.Component {
   render() {
     return (
       <div style={{margin: 30, border: '1px solid black'}}>
-        <div>
-          <h2>Dataset - {this.state.description}</h2>
-          <p>State: {this.state.contractState}</p>
-          <p>Description: {this.state.description}</p>
-          <p>Example: {this.state.example}</p>
-          <p>Provider: {this.state.provider}</p>
-          <p>contractAddr: {this.state.contractAddr}</p>
-          <hr/>
-          <p>Invested: {this.state.invested} wei</p>
-          <p>initialInvestmentTarget: {this.state.initialInvestmentTarget} wei</p>
-          <p>SP: {this.state.SP}</p>
-          <p>cidraw: {this.state.cidraw}</p>
-          <hr/>
+        <h2>Dataset - {this.state.description}</h2>
+        <hr/>
+        <h3>Information</h3>
+        <div style={{margin: 30}}>
+          <div>
+            <p>State: {this.state.contractState}</p>
+            <hr/>
+          </div>
+          <div>
+            <p>Description: {this.state.description}</p>
+            <p>Example: {this.state.example}</p>
+            <p>Provider: {this.state.provider}</p>
+            <p>Contract Address: {this.state.contractAddr}</p>
+            <hr/>
+          </div>
+          <div>
+            <p>Initial Investment Target: {this.state.initialInvestmentTarget} wei</p>
+            <p>Invested: {this.state.invested} wei</p>
+            <p>investors: {this.state.investors}</p>
+            <p>purchasers: {this.state.purchasers}</p>
+            <hr/>
+          </div>
+          <div>
+            <p>SP: {this.state.SP}</p>
+            <p>cidraw: {this.state.cidraw}</p>
+            <hr/>
+          </div>
         </div>
-        <div>
+
+        <h3>Action</h3>
+        <div style={{margin: 30}}>          
           <form onSubmit={this.onInvest}>
-            <h2>Invest</h2>
-            <div>
-              <p>{this.state.initialInvestmentTarget - this.state.invested} wei until done!</p>
-              <label>Amount of wei to invest</label>
-              <input
-                value={this.state.investAmt}
-                onChange={(event) => this.setState({ investAmt: event.target.value })}
-              />
-              <button>Enter</button>
-            </div>
+            <h4>Invest ({this.state.initialInvestmentTarget - this.state.invested} wei until done)</h4>
+            <label>Amount of wei to invest </label>
+            <input
+              value={this.state.investAmt}
+              onChange={(event) => this.setState({ investAmt: event.target.value })}
+            />
+            <button>Invest</button>
+            <hr/>
           </form>
-          <hr/>
-        </div>
-        <div>
+
           <form onSubmit={this.onPurchase}>
-            <h2>Purchase</h2>
-            <p>Price: {this.state.purchasePrice}</p>
-            <button>Enter</button>
+            <h4>Purchase (price: {this.state.purchasePrice})</h4>
+            <button>Purchase</button>
+            <hr/>
           </form>
-          <hr/>
-        </div>
-        <div>
-          <form onSubmit={this.onClose}>
-            <button>Close Contract</button>
-          </form>
-          <hr/>
-        </div>
-        <div>
+          
           <form onSubmit={this.onAuthorize}>
-            <div>
-              <label>SP:</label>
-              <input
-                value={this.state.SP}
-                onChange={(event) => this.setState({ SP: event.target.value })}
-              />
-              <label>cid raw:</label>
-              <input
-                value={this.state.cidraw}
-                onChange={(event) => this.setState({ cidraw: event.target.value })}
-              />
-            </div>
+            <h4>Authorize SP</h4>
+            <label>SP </label>
+            <input
+              value={this.state.SP}
+              onChange={(event) => this.setState({ SP: event.target.value })}
+            />
+            <br/>
+            <label>cid raw </label>
+            <input
+              value={this.state.cidraw}
+              onChange={(event) => this.setState({ cidraw: event.target.value })}
+            />
+            <br/>
             <button>Authorize</button>
+            <hr/>
           </form>
-          <hr/>
-        </div>
-        <div>
-          <h2>investors</h2>
-          <p>{this.state.investors}</p>
-          <h2>purchasers</h2>
-          <p>{this.state.purchasers}</p>
-        </div>
-        <h2>{this.state.message}</h2>
+
+          <form onSubmit={this.onClose}>
+            <h4>Close Contract</h4>
+            <button>Close</button>
+            <hr/>
+          </form>
+        </div>        
+        <p>debug: {this.state.message}</p>
       </div>
     );
   }
