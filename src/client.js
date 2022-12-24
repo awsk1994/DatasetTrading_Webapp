@@ -18,7 +18,7 @@ class Client extends React.Component {
       invested: 0,
       description: "",
       example: "",
-      contractState: contractStates[0],
+      contractState: "FETCHING CONTRACT...",
   
       investors: [],
       purchasers: [],
@@ -55,8 +55,8 @@ class Client extends React.Component {
 
   onInvest = async (event) => {
     event.preventDefault(); // TODO: what does this do?
+    this.setState({ message: "Processing..." });
     const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
     await this.dealClient.methods.invest().send({
       from: accounts[0],
       value: web3.utils.toWei(this.state.investAmt, "wei"),
@@ -66,8 +66,8 @@ class Client extends React.Component {
 
   onPurchase = async (event) => {
     event.preventDefault(); // TODO: what does this do?
+    this.setState({ message: "Processing..." });
     const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
     await this.dealClient.methods.purchase().send({
       from: accounts[0],
       value: web3.utils.toWei(this.state.purchasePrice, "wei"),
@@ -77,8 +77,8 @@ class Client extends React.Component {
 
   onClose = async (event) => {
     event.preventDefault(); // TODO: what does this do?
+    this.setState({ message: "Processing..." });
     const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
     await this.dealClient.methods.cancel().send({
       from: accounts[0],
     });
@@ -87,8 +87,8 @@ class Client extends React.Component {
 
   onAuthorize = async (event) => {
     event.preventDefault(); // TODO: what does this do?
+    this.setState({ message: "Processing..." });
     const accounts = await web3.eth.getAccounts();
-    this.setState({ message: "Fetching data..." });
     await this.dealClient.methods.authorizeSP(this.state.cidraw, this.state.SP).send({  // TODO: need to contract to bytes?
       from: accounts[0],
     });
@@ -97,7 +97,8 @@ class Client extends React.Component {
 
   render() {
     return (
-      <div style={{margin: 30, border: '1px solid black'}}>
+      <div>
+        {this.state.contractState != "FETCHING CONTRACT..." ? <div style={{margin: 30, border: '1px solid black'}}>
         <h2>Dataset - {this.state.description}</h2>
         <hr/>
         <h3>Information</h3>
@@ -171,7 +172,8 @@ class Client extends React.Component {
           </form>
         </div>        
         <p>debug: {this.state.message}</p>
-      </div>
+      </div> : <div><h2>Fetching Contract... please wait patientl</h2><hr/></div> }
+    </div>
     );
   }
 }
