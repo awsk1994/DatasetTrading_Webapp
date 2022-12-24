@@ -1,6 +1,3 @@
-// import web3 from './web3';
-
-// const address = '0xDEA75f19fC6a03c4BF999c42351B3E7D511b4E44';
 const abi = [
 	{
 		"inputs": [
@@ -23,6 +20,11 @@ const abi = [
 				"internalType": "uint64",
 				"name": "_purchasePrice",
 				"type": "uint64"
+			},
+			{
+				"internalType": "address",
+				"name": "_provider",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -103,6 +105,19 @@ const abi = [
 		"name": "cancel",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "cidRaw",
+		"outputs": [
+			{
+				"internalType": "bytes",
+				"name": "",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{

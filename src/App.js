@@ -1,6 +1,6 @@
 import React from "react";
 import web3 from "./web3";
-import factory from "./factory";
+import factory from "./metadata/factory";
 import Client from "./client";
 
 class App extends React.Component {
@@ -100,7 +100,7 @@ class App extends React.Component {
         <p>click to view dataset</p>
         <button onClick={this.getAllClients}>Refresh</button>
         {
-          this.state.selectedClientAddr !== 0 ? 
+          this.state.dealClients.length !== 0 ? 
           <div>
             { this.state.dealClients.map((addr, index) => <div key={addr}><button key={addr} onClick={() => this.select(addr)}>{this.state.dealClientsDesc[index]}</button></div>) }
           </div> : null 

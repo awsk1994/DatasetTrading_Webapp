@@ -1,7 +1,6 @@
 import React from "react";
 import web3 from "./web3";
-// import lottery from "./lottery";
-import dealClientAbi from "./dealClientAbi";
+import dealClientAbi from "./metadata/dealClientAbi";
 
 class Client extends React.Component {
   constructor(props) {
@@ -44,11 +43,12 @@ class Client extends React.Component {
 
     const investors = await this.dealClient.methods.getInvestors().call();
     const purchasers = await this.dealClient.methods.getPurchasers().call();
-    console.log(investors);
 
-    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState, investors, purchasers });
+    const SP = await this.dealClient.methods.SP().call();
+    const cidraw = await this.dealClient.methods.cidRaw().call();
+
+    this.setState({ provider, description, initialInvestmentTarget, purchasePrice, example, invested, contractState, investors, purchasers, cidraw, SP });
     console.log("provider address", provider);  
-  
   }
 
   onInvest = async (event) => {
@@ -106,6 +106,8 @@ class Client extends React.Component {
           <hr/>
           <p>Invested: {this.state.invested} wei</p>
           <p>initialInvestmentTarget: {this.state.initialInvestmentTarget} wei</p>
+          <p>SP: {this.state.SP}</p>
+          <p>cidraw: {this.state.cidraw}</p>
           <hr/>
         </div>
         <div>
