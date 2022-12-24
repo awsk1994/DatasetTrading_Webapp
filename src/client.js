@@ -140,12 +140,6 @@ class Client extends React.Component {
             <hr/>
           </form>
 
-          <form onSubmit={this.onPurchase}>
-            <h4>Purchase (price: {this.state.purchasePrice})</h4>
-            <button>Purchase</button>
-            <hr/>
-          </form>
-          
           <form onSubmit={this.onAuthorize}>
             <h4>Authorize SP</h4>
             <label>SP </label>
@@ -161,6 +155,12 @@ class Client extends React.Component {
             />
             <br/>
             <button>Authorize</button>
+            <hr/>
+          </form>
+
+          <form onSubmit={this.onPurchase}>
+            <h4>Purchase (price: {this.state.purchasePrice})</h4>
+            <button>Purchase</button>
             <hr/>
           </form>
 
