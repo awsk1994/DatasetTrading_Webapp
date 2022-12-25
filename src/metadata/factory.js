@@ -1,6 +1,7 @@
 import web3 from '../web3';
 
-const address = '0xdb6dB06e3bA8D1e0859E06cfF04177c624647EEc';
+// const address = '0xdb6dB06e3bA8D1e0859E06cfF04177c624647EEc';	// goerli
+const address = '0x1444B99E789F8606931254bd3228Bc50a2051dcE'; // wallaby
 const abi = [
 	{
 		"anonymous": false,
